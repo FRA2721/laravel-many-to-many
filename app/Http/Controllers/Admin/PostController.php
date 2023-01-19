@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Post;
 use App\Models\Type;
+use App\Models\Technology;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Controllers\Controller;
@@ -32,7 +33,8 @@ class PostController extends Controller
     public function create()
     {
         $types = Type::all();
-        return view("admin.posts.create", compact("types"));
+        $technologies = Technology::all();
+        return view("admin.posts.create", compact("types", "technologies"));
     }
 
     /**
@@ -56,6 +58,10 @@ class PostController extends Controller
         }
 
         $post = Post::create($data_received); //fillable is important...
+
+        if ($request->has("technologies")) {
+            $post->technologies()->attach($data_received["technologies"]);
+        }
         
         return redirect()->route("admin.posts.index", $post->slug);
     }
@@ -80,7 +86,8 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $types = Type::all();
-        return view("admin.posts.edit", compact("post", "types"));
+        $technologies = Type::all();
+        return view("admin.posts.edit", compact("post", "types", "technologies"));
     }
 
     /**
@@ -106,6 +113,14 @@ class PostController extends Controller
         }
         
         $post->update($data_received);
+
+        if ($request->has('technologies')) {
+            // sync
+            $post->technologies()->sync($data_received["technologies"]);
+        } else {
+            // detach
+            $post->technologies()->detach();
+        }
         return redirect()->route("admin.posts.index", $post->slug);
     }
 
@@ -117,6 +132,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        $post->technologies()->detach();
         $post->delete();
         return redirect()->route("admin.posts.index");
     }

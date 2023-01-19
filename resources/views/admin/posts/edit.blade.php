@@ -26,11 +26,21 @@
             <div class="mb-3">
               <label for="types">Type:</label>
               <select name="type_id" id="types" class="form-select">
-                  <option value="">Chose</option>
-                  @foreach ($types as $type)
-                      <option value="{{ $type->id }}" @selected(old('type_id', $post->type_id) == $type->id)>{{ $type->name }}</option>
-                  @endforeach
+                <option value="">Chose</option>
+                @foreach ($types as $type)
+                  <option value="{{ $type->id }}" @selected(old('type_id', $post->type_id) == $type->id)>{{ $type->name }}</option>
+                @endforeach
               </select>
+            </div>
+
+            <div class="mb-3">
+              <h5 class="mb-2">Technologies:</h5>
+              @foreach ($technologies as $technology)
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="{{ $technology->id }}" id="technologies-{{ $technology->id }}" name="technologies[]" @checked($post->technologies->contains($technology))>
+                  <label class="form-check-label" for="technologies-{{ $technology->id }}">{{ $technology->name }}</label>
+                </div>
+              @endforeach
             </div>
 
             <div class="mb-3">

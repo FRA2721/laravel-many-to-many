@@ -39,7 +39,20 @@
                     <option value="{{ $type->id }}" @selected(old('type_id') == $type->id)>{{ $type->name }}</option>
                 @endforeach
             </select>
-        </div>
+          </div>
+
+          {{-- technologies section --}}
+          <div class="mb-3">
+            <h5 class="mb-2">Technologies:</h5>
+
+            {{-- form check (to select the technologies) --}}
+            @foreach ($technologies as $technology)
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="{{ $technology->id }}" id="technologies-{{ $technology->id }}" name="technologies[]" @checked(in_array($technology->id, old('technologies', [])))>
+                <label class="form-check-label"for="technologies-{{ $technology->id }}">{{ $technology->name }}</label>
+              </div>
+            @endforeach
+          </div>
             
           {{-- link section --}}
           <div class="mb-3">
@@ -65,7 +78,7 @@
           </div>
           
           {{-- add section --}}
-          <div class="row justify-content-center mt-4">
+          <div class="row justify-content-center mt-4 mb-4">
             <button type="submit" class="btn btn-success row">Add</button>
           </div>
 

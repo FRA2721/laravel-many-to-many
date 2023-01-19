@@ -11,6 +11,13 @@
       <div class="col-8">
         <h1 class="text-center mt-3">{{ $post->title }}</h1>
         <h3 class="mt-3 text-success">{{ $post->type ? $post->type->name : 'No category' }}</h3>
+        <div class="flex">
+          @forelse ($post->technologies as $technology)
+              <span>#{{ $technology->name }}</span>
+          @empty
+            <span>*No technologies</span>
+          @endforelse
+        </div>
         <div class="d-flex justify-content-between mt-2">
           <h4>{{ $post->created_at }}</h4>
           <p>{{ $post->slug }}</p>

@@ -29,6 +29,7 @@ class StorePostRequest extends FormRequest
             "description" => ["nullable"],
             "link" => ["max:255"],
             "cover_image" => ["nullable", "image", "max:512"],
+            "technologies" => ["exists:technologies,id"]
         ];
     }
 }

@@ -30,7 +30,8 @@ class UpdatePostRequest extends FormRequest
             "type_id" => ["nullable", "exists:types,id"],
             "description" => ["nullable"],
             "link" => ["max:255"],
-            "cover_image" => ["nullable", "image", "max:512"]
+            "cover_image" => ["nullable", "image", "max:512"],
+            "technologies" => ["exists:technologies,id"]
         ];
     }
 }
